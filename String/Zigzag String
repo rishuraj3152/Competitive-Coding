@@ -1,0 +1,55 @@
+		Zigzag String
+
+The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+
+P.......A........H.......N
+..A..P....L....S....I...I....G
+....Y.........I........R
+And then read line by line: PAHNAPLSIIGYIR
+Write the code that will take a string and make this conversion given a number of rows:
+
+string convert(string text, int nRows);
+convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR"
+**Example 2 : **
+ABCD, 2 can be written as
+
+A....C
+...B....D
+and hence the answer would be ACBD.
+
+		*****Solution*****
+
+string Solution::convert(string A, int B) {
+    int n=A.length();
+    if(n==B)return A;
+    if(n==0 || n==1 || n==2)return A;
+    if(B<=1)return A;
+    string finalstr;
+    for(int k=1;k<=B;k++)
+    {
+        if(k==B || k==1)
+        {
+            for(int i=k-1;i<n;i=i+(B-1)*2)
+                finalstr.push_back(A[i]);
+        }
+        else
+        {
+            int count=1;
+            for(int i=k-1;i<n;)
+            {
+                finalstr.push_back(A[i]);
+                if(count%2!=0)
+                {
+                    i=i+(B-k)*2;
+                    count++;
+                }
+                else
+                {
+                    i=i+(k-1)*2;
+                    count++;
+                }
+            }
+        }
+    }
+    return finalstr;    
+}
