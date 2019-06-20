@@ -1,0 +1,39 @@
+		Implement StrStr
+Implement strStr().
+
+ strstr - locate a substring ( needle ) in a string ( haystack ). 
+Try not to use standard library string functions for this question.
+
+Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+ NOTE: Good clarification questions:
+What should be the return value if the needle is empty?
+What if both haystack and needle are empty?
+For the purpose of this problem, assume that the return value should be -1 in both cases.
+
+		*****Solution*****
+
+int Solution::strStr(const string B, const string A) {
+    int a=A.length();
+    int b=B.length();
+    if(a==0 || b==0)return -1;
+    for(int i=0;i<b;i++)
+    {
+        if(B[i]==A[0])
+        {
+            int flag=0;int temp=i;
+            for(int k=0;k<a;k++)
+            {
+                if(A[k]==B[temp])
+                    temp++;
+                else
+                {
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==0)return i;
+        }
+    }
+    return -1;
+}
