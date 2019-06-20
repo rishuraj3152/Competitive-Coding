@@ -1,0 +1,50 @@
+		Count And Say
+
+The count-and-say sequence is the sequence of integers beginning as follows:
+
+1, 11, 21, 1211, 111221, ...
+1 is read off as one 1 or 11.
+11 is read off as two 1s or 21.
+
+21 is read off as one 2, then one 1 or 1211.
+
+Given an integer n, generate the nth sequence.
+
+Note: The sequence of integers will be represented as a string.
+
+Example:
+
+if n = 2,
+the sequence is 11.
+
+		*****solution*****
+string Solution::countAndSay(int n) {
+    string a="11";
+    if(n==0)return "";
+    if(n==1)return "1";
+    if(n==2)return "11";
+    int count=1;
+    string ans;
+    for(int k=3;k<=n;k++)
+    {
+        count=1;
+        for(int i=1;i<a.length();i++)
+        {
+            if(a[i]!=a[i-1])
+            {
+                ans.push_back((char)(count+48));
+                ans.push_back(a[i-1]);
+                count=1;
+            }
+            else
+                count++;
+            
+        }
+        ans.push_back((char)(count+48));
+        ans.push_back(a[a.length()-1]);
+        a=ans;
+        ans.clear();
+    }
+    return a;
+    
+}
