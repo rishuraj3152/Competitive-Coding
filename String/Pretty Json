@@ -1,0 +1,127 @@
+		Pretty Json(MOST DISGUSTED QUESTION EVER, BUT I SOLVED IT)
+
+Pretty print a json object using proper indentation.
+
+Every inner brace should increase one indentation to the following lines.
+Every close brace should decrease one indentation to the same line and the following lines.
+The indents can be increased with an additional ‘\t’
+Example 1:
+
+Input : {A:"B",C:{D:"E",F:{G:"H",I:"J"}}}
+Output : 
+{ 
+    A:"B",
+    C: 
+    { 
+        D:"E",
+        F: 
+        { 
+            G:"H",
+            I:"J"
+        } 
+    } 
+}
+Example 2:
+
+Input : ["foo", {"bar":["baz",null,1.0,2]}]
+Output : 
+[
+    "foo", 
+    {
+        "bar":
+        [
+            "baz", 
+            null, 
+            1.0, 
+            2
+        ]
+    }
+]
+[] and {} are only acceptable braces in this case.
+
+Assume for this problem that space characters can be done away with.
+
+Your solution should return a list of strings, where each entry corresponds to a single line. The strings should not have “\n” character in them.
+
+
+		*****SOLUTION*****
+
+vector<string> Solution::prettyJSON(string A) {
+    int n=A.length();
+    int count=0;
+    vector<string> strlist;
+    string temp;
+    
+    for(int i=0;i<n;i++)
+    {
+        if(count==0 && A[i]=='\"'){continue;}
+        if(A[i]==' ')continue;
+        if(A[i]=='{' || A[i]=='[')
+        {
+            if(i!=0 && !temp.empty())
+            {
+                for(int k=1;k<=count;k++)
+                temp="\t"+temp;
+                strlist.push_back(temp);
+            }
+            temp.clear();
+            for(int k=1;k<=count;k++)
+                temp="\t"+temp;
+            temp=temp+A[i];
+            strlist.push_back(temp);
+            count++;
+            temp.clear();
+        }
+        else if(i<=n-2 && ((A[i]=='}' || A[i]==']') && A[i+1]==','))
+        {
+            if(!temp.empty())
+            {for(int k=1;k<=count;k++)
+                temp="\t"+temp;
+            strlist.push_back(temp);}
+            count--;
+            temp.clear();
+            for(int k=1;k<=count;k++)
+                temp=temp+"\t";
+            temp=temp+A[i]+A[i+1];
+            i++;
+            strlist.push_back(temp);
+            temp.clear();
+            
+        }
+        else if(A[i]=='}' || A[i]==']')
+        {
+            if(!temp.empty())
+            {for(int k=1;k<=count;k++)
+                temp="\t"+temp;
+            strlist.push_back(temp);}
+            count--;
+            temp.clear();
+            for(int k=1;k<=count;k++)
+                temp=temp+"\t";
+            temp=temp+A[i];
+            strlist.push_back(temp);
+            temp.clear();
+        }
+        else if(A[i]==',' && (A[i+1]!='{' && A[i+1]!='[' && A[i+1]!='}' && A[i+1]!=']' && A[i+1]!=' '))
+        {
+            temp.push_back(A[i]);
+            for(int k=1;k<=count;k++)
+                temp="\t"+temp;
+            strlist.push_back(temp);
+            temp.clear();
+        }
+        else if(A[i]==',' && A[i+1]==' ' && A[i+2]!='{' && A[i+2]!='[' && A[i+2]!='}' && A[i+2]!=']')
+        {
+            temp.push_back(A[i]);
+            for(int k=1;k<=count;k++)
+                temp="\t"+temp;
+            strlist.push_back(temp);
+            temp.clear();
+        }
+        else
+            temp.push_back(A[i]);
+        
+    }
+    return strlist;
+}
+
