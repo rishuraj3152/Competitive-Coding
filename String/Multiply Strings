@@ -1,0 +1,88 @@
+		Multiply Strings
+Given two numbers represented as strings, return multiplication of the numbers as a string.
+
+ Note: The numbers can be arbitrarily large and are non-negative.
+Note2: Your answer should not have leading zeroes. For example, 00 is not a valid answer. 
+For example, 
+given strings "12", "10", your answer should be “120”.
+
+NOTE : DO NOT USE BIG INTEGER LIBRARIES ( WHICH ARE AVAILABLE IN JAVA / PYTHON ). 
+We will retroactively disqualify such submissions and the submissions will incur penalties.
+
+		*****SOLUTION*****
+
+string add(string a,string b)
+{
+    int n=a.length();
+    int res=0,rem=0;
+    string final;
+    for(int i=n-1;i>=0;i--)
+    {
+        int x=a[i]-'0';
+        int y=b[i]-'0';
+        res=(rem+x+y)%10;
+        rem=(rem+x+y)/10;
+        final.push_back(res+48);
+        if(i==0 && rem>0)final.push_back(rem+48);
+    }
+    reverse(final.begin(),final.end());
+    return final;
+}
+string Solution::multiply(string A, string B) {
+    int m=A.length();
+    int n=B.length();
+    int loan=0;
+    int prod=0;
+    string sum;
+    if(m==1 && A[0]=='0')return "0";
+    if(n==1 && B[0]=='0')return "0";
+    vector<string> strlist;
+    for(int i=n-1;i>=0;i--)
+    {
+        loan=0;
+        sum.clear();
+        for(int j=m-1;j>=0;j--)
+        {
+            int a=A[j]-'0';
+            int b=B[i]-'0';
+            prod=(a*b+loan)%10;
+            loan=(a*b+loan)/10;
+            sum.push_back((char)(prod+48));
+            if(j==0 && loan>0)sum.push_back((char)(loan+48));
+        }
+        reverse(sum.begin(),sum.end());
+        strlist.push_back(sum);
+    }
+    for(int i=0;i<strlist.size();i++)
+    {
+        for(int c=0;c<i;c++)
+        {
+            strlist[i].push_back('0');
+        }
+    }
+    int len=strlist[strlist.size()-1].length();
+    for(int i=0;i<strlist.size();i++)
+    {
+        string temp;
+        for(int c=1;c<=len-strlist[i].length();c++)
+        {
+            temp.push_back('0');
+        }
+        strlist[i]=temp+strlist[i];
+    }
+    string finalstr=strlist[0];
+    for(int i=1;i<strlist.size();i++)
+    {
+        finalstr=add(finalstr,strlist[i]);
+    }
+    for(int i=0;i<finalstr.length();i++)
+    {
+        if(finalstr[i]=='0')
+        {
+            finalstr=finalstr.substr(i+1);
+        }
+        else break;
+    }
+    return finalstr;
+    
+}
