@@ -1,0 +1,71 @@
+		IMPLEMENTATION OF STACK(MOST RATED QUESTION OF STACK)
+
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+push(x) – Push element x onto stack.
+pop() – Removes the element on top of the stack.
+top() – Get the top element.
+getMin() – Retrieve the minimum element in the stack.
+Note that all the operations have to be constant time operations.
+ 
+ If stack is empty, getMin() will return -1;
+ If stack is empty, pop will do nothing
+ If stack is empty, top() returns -1;
+
+ 		*****solution*****
+ vector<int> s;
+int front;
+int minele;
+
+MinStack::MinStack() {
+    s.clear();
+    front=-1;
+    minele=INT_MAX;
+}
+
+void MinStack::push(int x) {
+    if(front==-1)
+    {
+        minele=x;
+        s.push_back(x);
+    }
+    else
+    {
+        if(x>minele)s.push_back(x);
+        else
+        {
+            s.push_back(2*x-minele);
+            minele=x;
+        }
+    }
+    front++;
+}
+
+void MinStack::pop() {
+    if(front==-1)return;
+    else
+    {
+        int t=s[front];
+        s.pop_back();
+        front--;
+        if(t<minele)
+            minele=2*minele-t;
+    }
+}
+
+int MinStack::top() {
+    if(front==-1)return -1;
+    else
+    {
+        int t=s[front];
+        if(t<minele)return minele;
+        else return t;
+    }
+}
+
+int MinStack::getMin() {
+    if(front==-1)return -1;
+    else return minele;
+    
+}
+
