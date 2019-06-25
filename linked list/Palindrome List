@@ -1,0 +1,71 @@
+		Palindrome List
+
+Given a singly linked list, determine if its a palindrome. Return 1 or 0 denoting if its a palindrome or not, respectively.
+
+Notes:
+
+Expected solution is linear in time and constant in space.
+For example,
+
+List 1-->2-->1 is a palindrome.
+List 1-->2-->3 is not a palindrome.
+
+		*****Solution*****
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+int Solution::lPalin(ListNode* A) {
+    if(A==NULL)return 0;
+    if(A->next==NULL)return 1;
+    stack<int> s;
+    ListNode *temp=A;
+    int count=1,tempcount=1;
+    while(temp->next!=NULL)
+    {
+        count++;
+        temp=temp->next;
+    }
+    if(count%2==0)
+    {
+        tempcount=1;
+        temp=A;
+        while(tempcount<=count/2)
+        {
+            s.push(temp->val);
+            temp=temp->next;
+            tempcount++;
+        }
+        while(temp!=NULL)
+        {
+            if(temp->val!=s.top())return 0;
+            s.pop();
+            temp=temp->next;
+        }
+        return 1;
+    }
+    else
+    {
+        tempcount=1;
+        temp=A;
+        while(tempcount<=count/2)
+        {
+            s.push(temp->val);
+            temp=temp->next;
+            tempcount++;
+        }
+        s.push(temp->val);
+        while(temp!=NULL)
+        {
+            if(temp->val!=s.top())return 0;
+            s.pop();
+            temp=temp->next;
+        }
+        return 1;
+    }
+}
+
