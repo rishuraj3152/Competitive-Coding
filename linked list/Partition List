@@ -1,0 +1,50 @@
+		Partition List
+
+Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+
+You should preserve the original relative order of the nodes in each of the two partitions.
+
+For example,
+Given 1->4->3->2->5->2 and x = 3,
+return 1->2->2->4->3->5.
+
+		*****Solution*****
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::partition(ListNode* A, int B) {
+    ListNode* temp=A;
+    ListNode* ans=NULL;
+    ListNode* temp1=ans;
+    while(temp!=NULL)
+    {
+        if(temp->val<B)
+        {
+            ListNode* nnode=new ListNode(temp->val);
+            if(ans==NULL)
+                {ans=nnode;
+                temp1=ans;}
+            else {ans->next=nnode;ans=ans->next;}
+        }
+        temp=temp->next;
+    }
+    temp=A;
+    while(temp!=NULL)
+    {
+        if(temp->val>=B)
+        {
+            ListNode* nnode=new ListNode(temp->val);
+            if(ans==NULL)
+               { ans=nnode;temp1=ans;}
+            else {ans->next=nnode;ans=ans->next;}
+        }
+        temp=temp->next;
+    }
+    return temp1;
+}
