@@ -1,0 +1,74 @@
+		2 Sum
+
+Given an array of integers, find two numbers such that they add up to a specific target number.
+
+The function twoSum should return indices of the two numbers such that they add up to the target, where index1 < index2. Please note that your returned answers (both index1 and index2 ) are not zero-based. 
+Put both these numbers in order in an array and return the array from your function ( Looking at the function signature will make things clearer ). Note that, if no pair exists, return empty list.
+
+If multiple solutions exist, output the one where index2 is minimum. If there are multiple solutions with the minimum index2, choose the one with minimum index1 out of them.
+
+Input: [2, 7, 11, 15], target=9
+Output: index1 = 1, index2 = 2		
+
+
+		*****Solution*****
+
+vector<int> Solution::twoSum(const vector<int> &A, int B) {
+    unordered_map<int,int> store;
+    int index1=INT_MAX,index2=INT_MAX;
+    int temp,temp1;
+    vector<int> arr;
+    for(int i=0;i<A.size();i++)
+        store[A[i]]=i+1;
+    for(int i=0;i<A.size();i++)
+        store[A[i]]=min(store[A[i]],i+1);
+    for(int i=0;i<A.size();i++)
+    {
+        if(store[B-A[i]]>0 && store[B-A[i]]!=store[A[i]])
+        {
+            temp=store[B-A[i]];
+            temp1=store[A[i]];
+            if(temp1>temp)swap(temp,temp1);
+            if(temp<index2)
+            {
+                index2=temp;
+                index1=temp1;
+            }
+            else if(temp==index2)
+            {
+                index1=min(index1,temp);
+            }
+        }
+    }
+    for(int i=0;i<A.size();i++)
+    {
+        int flag=0;
+        if(store[B-A[i]]>0 && store[B-A[i]]==store[A[i]])
+        {
+            for(int j=i+1;j<A.size();j++)
+            if(A[i]==A[j])
+            {
+                temp=i+1;
+                temp1=j+1;
+                flag=1;
+                if(temp1>temp)swap(temp,temp1);
+                if(temp<index2)
+                {
+                    index2=temp;
+                    index1=temp1;
+                }
+                else if(temp==index2)
+                {
+                    index1=min(index1,temp);
+                }
+                break;
+            }
+        }
+        if(flag==1)break;
+    }
+    if(index1==INT_MAX && index2==INT_MAX)return arr;
+    if(index1>index2)swap(index1,index2);
+    arr.push_back(index1);
+    arr.push_back(index2);
+    return arr;
+}
