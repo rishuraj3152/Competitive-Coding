@@ -1,0 +1,43 @@
+		Reverse Bits
+
+Reverse bits of an 32 bit unsigned integer
+
+Example 1:
+
+x = 0,
+
+          00000000000000000000000000000000  
+=>        00000000000000000000000000000000
+return 0
+
+Example 2:
+
+x = 3,
+
+          00000000000000000000000000000011 
+=>        11000000000000000000000000000000
+return 3221225472
+
+
+			*****Solution*****
+
+unsigned int Solution::reverse(unsigned int n) {
+    if(n==0)return 0;
+    unsigned int temp=n;
+    string res;
+    for(unsigned int i=1<<31;i>0;i=i/2)
+        if(temp&i)
+            res.push_back('1');
+        else res.push_back('0');
+    
+    
+    std::reverse(res.begin(),res.end());
+    unsigned int ans=0;
+    for(int i=0;i<res.length();i++)
+    {
+        int k=res[i]-48;
+        ans=ans*2+k;
+    }
+    return ans;
+}
+
