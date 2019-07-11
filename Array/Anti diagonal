@@ -1,0 +1,86 @@
+			ANTI DIAGONAL
+
+Give a N*N square matrix, return an array of its anti-diagonals. Look at the example for more details.
+
+Example:
+
+		
+Input: 	
+
+1 2 3
+4 5 6
+7 8 9
+
+Return the following :
+
+[ 
+  [1],
+  [2, 4],
+  [3, 5, 7],
+  [6, 8],
+  [9]
+]
+
+
+Input : 
+1 2
+3 4
+
+Return the following  : 
+
+[
+  [1],
+  [2, 3],
+  [4]
+]
+			*****SOLUTION*****
+
+vector<vector<int> > Solution::diagonal(vector<vector<int> > &A) {
+    int n=A[0].size();
+    vector<vector<int> > ans;
+    vector<int> temp;
+    for(int i=0;i<n;i++)
+    {
+        if(i==0)
+        {
+            temp.clear();
+            temp.push_back(A[0][i]);
+            ans.push_back(temp);
+        }
+        else
+        {
+            int x=0,y=i;
+            temp.clear();
+            while(x<=i && y>=0)
+            {
+                temp.push_back(A[x][y]);
+                x++;
+                y--;
+            }
+            ans.push_back(temp);
+        }
+    }
+    
+    for(int i=1;i<n;i++)
+    {
+        if(i==n-1)
+        {
+            temp.clear();
+            temp.push_back(A[i][n-1]);
+            ans.push_back(temp);
+        }
+        else
+        {
+            int x=i,y=n-1;
+            temp.clear();
+            while(x<=n-1 && y>=i)
+            {
+                temp.push_back(A[x][y]);
+                x++;
+                y--;
+            }
+            ans.push_back(temp);
+        }
+    }
+    return ans;
+}
