@@ -1,0 +1,84 @@
+		Rotate Matrix
+
+		You are given an n x n 2D matrix representing an image.
+
+Rotate the image by 90 degrees (clockwise).
+
+You need to do this in place.
+
+Note that if you end up using an additional array, you will only receive partial score.
+
+Example:
+
+If the array is
+
+[
+    [1, 2],
+    [3, 4]
+]
+Then the rotated array becomes:
+
+[
+    [3, 1],
+    [4, 2]
+]
+
+		*****Solution*****
+
+void Solution::rotate(vector<vector<int> > &A) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    long long int k=0,l=0;
+    long long int m=A.size();
+    long long int it=0;
+    long long int n=A[0].size();
+    vector<int> prev;
+    long long int curr;
+    while(k<m && l<n)
+    {
+        prev.clear();
+        for(long long int i=m-1;i>=k;i--)
+        {
+            prev.push_back(A[i][l]);
+        }
+        it=0;
+        for(long long int i=l;i<n;i++)
+        {
+            curr=A[k][i];
+            A[k][i]=prev[it];
+            prev[it++]=curr;
+        }
+        k++;it=0;
+        for(long long int i=k-1;i<m;i++)
+        {
+            if(i==k-1)curr=prev[prev.size()-1];
+            else curr=A[i][n-1];
+            A[i][n-1]=prev[it];
+            prev[it++]=curr;
+        }
+        it=0;n--;
+        if(k<m)
+        {
+            for(long long int i=n;i>=l;i--)
+            {
+                if(i==n)curr=prev[prev.size()-1];
+                else curr=A[m-1][i];
+                A[m-1][i]=prev[it];
+                prev[it++]=curr;
+            }
+            m--;it=0;
+        }
+        if(l<n)
+        {
+            for(long long int i=m;i>=k;i--)
+            {
+                curr=A[i][l];
+                A[i][l]=prev[it];
+                prev[it++]=curr;
+            }   
+            l++;it=0;
+        }
+    }
+}
