@@ -1,0 +1,44 @@
+		Max Distance
+
+Given an array A of integers, find the maximum of j - i subjected to the constraint of A[i] <= A[j].
+
+If there is no solution possible, return -1.
+
+Example :
+
+A : [3 5 4 2]
+
+Output : 2 
+for the pair (3, 4)
+
+		*****Solution*****
+
+	int Solution::maximumGap(const vector<int> &A) {
+    int n=A.size();
+    vector<int> leftmin(n,0);
+    vector<int> rightmax(n,0);
+    leftmin[0]=A[0];
+    rightmax[n-1]=A[n-1];
+    for(int i=1;i<n;i++)
+    {
+        leftmin[i]=min(A[i],leftmin[i-1]);
+    }
+    for(int i=n-2;i>=0;i--)
+    {
+        rightmax[i]=max(A[i],rightmax[i+1]);
+    }
+    int i=0,j=0,maxdiff=-1;
+    while(i<n && j<n)
+    {
+        if(leftmin[i]<=rightmax[j])
+        {
+            maxdiff=max(maxdiff,j-i);
+            j++;
+        }
+        else if(leftmin[i]>rightmax[j])
+        {
+            i++;
+        }
+    }
+    return maxdiff;
+}
