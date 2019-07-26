@@ -1,0 +1,62 @@
+N max pair combinations
+
+Given two arrays A & B of size N each.
+Find the maximum N elements from the sum combinations (Ai + Bj) formed from elements in array A and B.
+
+For example if A = [1,2], B = [3,4], then possible pair sums can be 1+3 = 4 , 1+4=5 , 2+3=5 , 2+4=6
+and maximum 2 elements are 6, 5
+
+Example:
+
+N = 4
+a[]={1,4,2,3}
+b[]={2,5,1,6}
+
+Maximum 4 elements of combinations sum are
+10   (4+6), 
+9    (3+6),
+9    (4+5),
+8    (2+6)
+
+*****Solution*****
+
+vector<int> Solution::solve(vector<int> &A, vector<int> &B) {
+    int n=A.size();
+    vector<int> ans;
+    if(n==0)return ans;
+    if(n==1)
+    {
+        ans.push_back(A[n-1]+B[n-1]);
+        return ans;
+    }
+    priority_queue<pair<int, pair<int,int> > > pq;
+    set <pair<int,int> > s;
+    
+    sort(A.begin(),A.end());
+    sort(B.begin(),B.end());
+    ans.push_back(A[n-1]+B[n-1]);
+    int x=n-1,y=n-1;
+    for(int i=1;i<=n-1;i++)
+    {
+        if(s.find(make_pair(x,y-1))==s.end())
+        {
+            s.insert(make_pair(x,y-1));
+            pq.push(make_pair(A[x]+B[y-1],make_pair(x,y-1)));
+        }
+        if(s.find(make_pair(x-1,y))==s.end())
+        {
+            s.insert(make_pair(x-1,y));
+            pq.push(make_pair(A[x-1]+B[y],make_pair(x-1,y)));
+        }
+        pair<int, pair<int,int> > temp;
+        temp=pq.top();
+        pq.pop();
+        x=temp.second.first;
+        y=temp.second.second;
+        //cout<<x<<" "<<y<<endl;
+        ans.push_back(temp.first);
+        //s.erase(temp.second);
+    }
+    return ans;
+    
+}
