@@ -1,0 +1,58 @@
+Sum Root to leaf Numbers
+
+Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
+
+An example is the root-to-leaf path 1->2->3 which represents the number 123.
+
+Find the total sum of all root-to-leaf numbers % 1003.
+
+Example :
+
+    1
+   / \
+  2   3
+The root-to-leaf path 1->2 represents the number 12.
+The root-to-leaf path 1->3 represents the number 13.
+
+Return the sum = (12 + 13) % 1003 = 25 % 1003 = 25.
+
+*****solution*****
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ void f(TreeNode* A,long long put,vector<long long> &ans)
+ {
+     if(A==NULL)return;
+     if(put>=1003)put=put%1003;
+     //cout<<"put="<<put<<endl;
+     if(A->left==NULL && A->right==NULL)
+     {
+         put=put*10+A->val;
+         //cout<<"put="<<put<<endl;
+         ans.push_back(put);
+         return;
+     }
+     f(A->left,put*10+A->val,ans);
+     f(A->right,put*10+A->val,ans);
+     
+ }
+ 
+int Solution::sumNumbers(TreeNode* A) {
+    if(A==NULL)return 0;
+    vector<long long> ans;
+    f(A,0,ans);
+    long long final=0;
+    for(int i=0;i<ans.size();i++)
+    {
+        //cout<<ans[i]<<" ";
+        final+=(ans[i]%1003);
+    }
+    return final%1003;
+}
