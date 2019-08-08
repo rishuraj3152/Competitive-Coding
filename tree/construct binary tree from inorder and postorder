@@ -1,0 +1,58 @@
+construct binary tree from inorder and postorder
+
+Given inorder and postorder traversal of a tree, construct the binary tree.
+
+ Note: You may assume that duplicates do not exist in the tree. 
+Example :
+
+Input : 
+        Inorder : [2, 1, 3]
+        Postorder : [2, 3, 1]
+
+Return : 
+            1
+           / \
+          2   3
+
+
+     *****Solution*****
+
+   /**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+TreeNode* Solution::buildTree(vector<int> &A, vector<int> &B) {
+    int m=A.size();
+    int n=B.size();
+    TreeNode* root=new TreeNode(B[n-1]);
+    if(m==1)return root;
+    int i,j;
+    for(i=0;i<m;i++)if(A[i]==B[n-1])break;
+    vector<int> inorder;
+    vector<int> postorder;
+    for(j=0;j<i;j++)
+    {
+        inorder.push_back(A[j]);
+        postorder.push_back(B[j]);
+    }
+    if(inorder.size()>0)        
+    root->left=buildTree(inorder,postorder);
+    else root->left=NULL;
+    
+    inorder.clear();
+    postorder.clear();
+    for(int k=i+1;k<m;k++)
+        inorder.push_back(A[k]);
+    for(int k=i;k<n-1;k++)
+        postorder.push_back(B[k]);
+    if(inorder.size()>0)        
+    root->right=buildTree(inorder,postorder);
+    else root->right=NULL;
+    
+    return root;
+}
