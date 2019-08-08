@@ -1,0 +1,75 @@
+ZigZag or spiral level order traversal of BST
+
+
+Given a binary tree, return the zigzag level order traversal of its nodes’ values. (ie, from left to right, then right to left for the next level and alternate between).
+
+Example : 
+Given binary tree
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return
+
+[
+         [3],
+         [20, 9],
+         [15, 7]
+]
+
+******Solution*****
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ int height(TreeNode *A)
+ {
+     if(A==NULL)return 0;
+     int l=height(A->left);
+     int r=height(A->right);
+     if(l<r)return 1+r;
+     else return 1+l;
+ }
+ void printlevel(TreeNode* A,int level,int l,vector<int> &temp)
+ {
+     if(A==NULL)return;
+     if(level==1)
+     {
+         temp.push_back(A->val);
+     }
+     else if(level>1)
+     {
+         if(l==0)
+         {
+             printlevel(A->left,level-1,l,temp);
+             printlevel(A->right,level-1,l,temp);
+         }
+         else
+         {
+             printlevel(A->right,level-1,l,temp);
+             printlevel(A->left,level-1,l,temp);
+         }
+     }
+ }
+ 
+vector<vector<int> > Solution::zigzagLevelOrder(TreeNode* A) {
+    int h=height(A);
+    bool l=false;
+    vector<vector<int> > ans;
+    for(int i=1;i<=h;i++)
+    {
+        vector<int> temp;
+        printlevel(A,i,l,temp);
+        ans.push_back(temp);
+        l=!l;
+    }
+    return ans;
+}
