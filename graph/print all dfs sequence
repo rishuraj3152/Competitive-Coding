@@ -1,0 +1,40 @@
+Input a complete graph of 6 elements. Find all the DFS sequences starting from some fixed node. Print each sequence.
+
+#include<bits/stdc++.h>
+using namespace std;
+void dfs(int src,vector<int> &visited,vector<int> &result,int *coun)
+{
+    visited[src]=1;
+    result.push_back(src);
+    int flag=0;
+    for(int i=0;i<6;i++)
+    {
+        if(visited[i]==0)
+        {
+            flag=1;
+            dfs(i,visited,result,coun);
+        }
+    }
+    visited[src]=0;
+    if(flag==0)
+    {
+        (*coun)++;
+        for(int i=0;i<result.size();i++)cout<<result[i]<<" ";
+        cout<<endl;
+    }
+    result.pop_back();
+
+}
+int main()
+{
+    int n=6;
+    int src;
+    int coun=0;
+    vector<int> visited(n,0);
+    cout<<"enter the source";
+    cin>>src;
+    vector<int> result;
+    dfs(src,visited,result,&coun);
+    cout<<"count="<<coun;
+    return 0;
+}
