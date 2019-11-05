@@ -1,0 +1,35 @@
+Maximum Binary Tree
+Given an integer array with no duplicates. A maximum tree building on this array is defined as follow:
+
+The root is the maximum number in the array.
+The left subtree is the maximum tree constructed from left part subarray divided by the maximum number.
+The right subtree is the maximum tree constructed from right part subarray divided by the maximum number.
+Construct the maximum tree by the given array and output the root node of this tree.
+
+TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        int n=nums.size();
+        if(n==0)return NULL;
+        TreeNode* root=NULL;
+        if(n==1)
+        {
+            root=new TreeNode(nums[0]);
+            return root;
+        }
+        vector<int>::iterator it,i;
+        it=max_element(nums.begin(),nums.end());
+        root=new TreeNode(*it);
+        vector<int> first;
+        vector<int> second;
+        for(i=nums.begin();i!=nums.end();i++)
+        {
+            if(*i==*it)break;
+            first.push_back(*i);
+        }
+        for(i=it+1;i!=nums.end();i++)
+        {
+            second.push_back(*i);
+        }
+        root->left=constructMaximumBinaryTree(first);
+        root->right=constructMaximumBinaryTree(second);
+        return root;    
+    }
