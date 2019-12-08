@@ -1,0 +1,68 @@
+Third maximum integer
+Given a non-empty array of integers, return the third maximum number in this array. If it does not exist, return the maximum number. The time complexity must be in O(n).
+
+Example 1:
+Input: [3, 2, 1]
+
+Output: 1
+
+Explanation: The third maximum is 1.
+Example 2:
+Input: [1, 2]
+
+Output: 2
+
+Explanation: The third maximum does not exist, so the maximum (2) is returned instead.
+Example 3:
+Input: [2, 2, 3, 1]
+
+Output: 1
+
+Explanation: Note that the third maximum here means the third maximum distinct number.
+Both numbers with value 2 are both considered as second maximum.
+
+Solution
+
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        long long a=INT64_MIN,b=INT64_MIN,c=INT64_MIN;
+        cout<<INT64_MIN;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]>a)
+            {
+                long long temp=a;
+                a=nums[i];
+                if(temp>b)
+                {
+                    long long temp2=b;
+                    b=temp;
+                    if(temp2>c)c=temp2;
+                }
+                else if(temp<b)
+                {
+                    if(temp>c)c=temp;
+                }
+            }
+            else if(nums[i]<a)
+            {
+                if(nums[i]>b)
+                {
+                    long long temp=b;
+                    b=nums[i];
+                    if(temp>c)c=temp;
+                }
+                else if(nums[i]<b)
+                {
+                    if(nums[i]>c)c=nums[i];
+                }
+            }
+        }
+        cout<<a<<" "<<b<<" "<<c<<endl;
+        int ans=0;
+        if(c!=INT64_MIN)ans=c;
+        else ans=a;
+        return ans;
+    }
+};
