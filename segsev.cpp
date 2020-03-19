@@ -1,52 +1,58 @@
 #include<bits/stdc++.h>
+ 
 using namespace std;
+ 
 #define int long long int
-const int N=100005;
-vector<int> prime;
-
-void simplesieve(){
-	vector<bool> mark(N,true);
-	for(int p=2;p<N;p++){
-		if(mark[p]==true){
-			for(int i=p;i<N;i+=p){
-				mark[i]=false;
-			}
-		}
-	}
-	for(int i=2;i<N;i++){
-		if(mark[i]==true){
-			prime.push_back(i);
-	    }
+#define ld long double
+#define F first
+#define S second
+#define P pair<int,int>
+#define pb push_back
+ 
+const int N = 100005;
+ 
+int pr[N];
+vector<int> primes;
+ 
+void seive() {
+    int i, j;
+    for (i = 2; i < N; i++) {
+        if (!pr[i]) {
+            primes.pb(i);
+            for (j = i; j < N; j += i) {
+                pr[j]++;
+            }
+        }
     }
 }
-void solve(int m,int n){
-	int limit=floor(sqrt(n))+1;
-
-	vector<bool> mark(n-m+1,true);
-	for(int i=0;i<prime.size();i++){
-		if(prime[i]*prime[i]>n)break;
-		int nearest=floor(m/prime[i])*prime[i];
-		if(prime[i]>=m && prime[i]<=n)nearest=prime[i]*2;
-		for(int j=nearest;j<=n;j+=prime[i]){
-			if(j>=m)
-				mark[j-m]=false;
-		}
-	}
-	for(int i=m;i<=n;i++){
-		if(mark[i-m]==true && i!=1)cout<<i<<'\n';
-	}
-}
-int32_t main(){
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);cout.tie(NULL);
-	simplesieve();
-    int t;
-    cin>>t;
-    int m,n;
-    while(t--){
-        cin>>m>>n;
-        solve(m,n);
-        if(t>=1)cout<<'\n';
+ 
+ 
+int32_t main()
+{
+    ios_base:: sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    seive();
+    int t; cin >> t; while (t--)
+    {
+        int i, j, k, n, m, ans = 0, cnt = 0, sum = 0;
+        cin >> m >> n;
+        bool seg_pr[n - m + 1] = {};
+        for (auto x : primes) {
+            if (x * x > n) break;
+            // check for prime x
+            int st = (m / x) * x;
+            if (x >= m && x <= n) st = x * 2;
+            for (i = st; i <= n; i += x) {
+                if (i >= m) {
+                    seg_pr[i - m] = 1;
+                }
+            }
+        }
+        for (i = m; i <= n; i++) {
+            if (seg_pr[i - m] == 0 && i != 1) {
+                cout << i << '\n';
+            }
+        }
+        cout << '\n';
     }
-    return 0;
 }
